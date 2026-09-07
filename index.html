@@ -1717,14 +1717,10 @@ function toggleNotif() {
 function updateNotifPanel() {
   const perm    = 'Notification' in window ? Notification.permission : 'unsupported';
   const enabled = localStorage.getItem('sk_notif') !== 'off';
-  const panel   = document.getElementById('notifPanel');
-  const btn     = document.getElementById('notifBtn');
   const status  = document.getElementById('notifStatus');
-  const count   = document.getElementById('notifCount');
+  const btn     = document.getElementById('notifBtn');
+  if (!status || !btn) return;
 
-  if (!panel) return;
-
-  // Count upcoming notifications for today
   const now = new Date();
   const remaining = NOTIF_SCHEDULE.filter(t => {
     const fireAt = new Date(); fireAt.setHours(t.h, t.m, 0, 0);
@@ -1732,37 +1728,46 @@ function updateNotifPanel() {
   }).length;
 
   if (perm === 'unsupported') {
-    status.textContent = 'Not supported on this browser';
+    status.textContent = 'Not supported — use Safari on iOS 16.4+';
     status.style.color = 'var(--rose)';
     btn.style.display = 'none';
+
+  } else if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+    status.textContent = 'Open via https:// URL for notifications to work';
+    status.style.color = 'var(--amber)';
+    btn.style.display = 'none';
+
   } else if (perm === 'denied') {
-    status.textContent = 'Blocked — go to iOS Settings → Safari → Notifications → Allow';
+    status.textContent = 'Blocked — go to: Settings → Safari → Notifications → Allow';
     status.style.color = 'var(--rose)';
-    btn.textContent = 'Open Settings';
+    btn.textContent = 'How to fix ↗';
     btn.style.display = 'inline-block';
-    btn.onclick = () => showToast('Go to: Settings → Safari → Notifications');
+    btn.onclick = () => showToast('Settings → Safari → Notifications → your site → Allow');
+
   } else if (perm === 'granted' && enabled) {
-    status.textContent = `Active — ${remaining} alerts scheduled today`;
+    status.textContent = `✓ Active — ${remaining} alerts scheduled for today`;
     status.style.color = 'var(--emerald)';
     btn.textContent = 'Turn off';
     btn.style.display = 'inline-block';
     btn.onclick = toggleNotif;
+
   } else if (perm === 'granted' && !enabled) {
-    status.textContent = 'Permission granted but notifications are off';
+    status.textContent = 'Permission granted but alerts are turned off';
     status.style.color = 'var(--amber)';
     btn.textContent = 'Turn on';
     btn.style.display = 'inline-block';
     btn.onclick = toggleNotif;
+
   } else {
-    // default / prompt state
-    status.textContent = 'Not yet enabled — tap Enable to get 2-min alerts';
-    status.style.color = 'var(--text2)';
+    // 'default' — not yet asked
+    status.textContent = 'Tap Enable to get 2-min alerts before each task';
+    status.style.color = 'var(--accent3)';
     btn.textContent = 'Enable notifications';
     btn.style.display = 'inline-block';
     btn.onclick = requestNotifPermission;
   }
 
-  if (count) count.textContent = remaining + ' alerts today';
+  updateBellBadge();
 }
 
 function openNotifPanel() {
@@ -1924,13 +1929,27 @@ renderCal();
 updateStats();
 
 // ── Notification init ──
-setTimeout(() => {
-  if ('Notification' in window && Notification.permission === 'granted') {
-    scheduleNotifications();
+function initNotifications() {
+  if (!('Notification' in window)) {
+    const s = document.getElementById('notifStatus');
+    if (s) { s.textContent = 'Notifications not supported on this browser'; s.style.color = 'var(--rose)'; }
+    return;
   }
-  updateNotifPanel();
-  updateBellBadge();
-}, 1200);
+
+  // Works in both Safari browser tab AND standalone PWA on https
+  if (location.protocol === 'https:' || location.hostname === 'localhost') {
+    if (Notification.permission === 'granted') {
+      scheduleNotifications();
+    }
+    updateNotifPanel();
+    updateBellBadge();
+  } else {
+    const s = document.getElementById('notifStatus');
+    if (s) { s.textContent = 'Needs https:// URL — open via GitHub Pages or Netlify'; s.style.color = 'var(--amber)'; }
+  }
+}
+
+initNotifications();
 </script>
 <!-- ── NOTIFICATION BELL ── -->
 <div class="notif-bell" onclick="openNotifPanel()" title="Notification settings">
