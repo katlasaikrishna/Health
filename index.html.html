@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SK Tracker">
+<meta name="theme-color" content="#0d0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Sai Krishna — Daily Health Tracker</title>
+
+<!-- PWA Manifest inline -->
+<link rel="manifest" href="data:application/json;charset=utf-8,{
+  %22name%22:%22SK Health Tracker%22,
+  %22short_name%22:%22SK Tracker%22,
+  %22description%22:%22Sai Krishna Daily Health Tracker - Hashimoto Reversal Protocol%22,
+  %22start_url%22:%22.%22,
+  %22display%22:%22standalone%22,
+  %22background_color%22:%22%230d0f14%22,
+  %22theme_color%22:%22%230d0f14%22,
+  %22orientation%22:%22portrait%22,
+  %22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0f14'/%3E%3Ccircle cx='50' cy='50' r='32' fill='none' stroke='%236366f1' stroke-width='4'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%236366f1' font-size='28' font-family='system-ui' font-weight='600'%3ESK%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]
+}">
+
+<!-- Apple touch icon inline SVG -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0f14'/><circle cx='50' cy='50' r='32' fill='none' stroke='%236366f1' stroke-width='4'/><text x='50' y='58' text-anchor='middle' fill='%236366f1' font-size='28' font-family='system-ui' font-weight='600'>SK</text></svg>">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #0d0f14;
+  --bg2:      #12151c;
+  --bg3:      #181c26;
+  --bg4:      #1e2330;
+  --bg5:      #242a38;
+  --border:   rgba(148,163,184,0.07);
+  --border2:  rgba(148,163,184,0.13);
+  --border3:  rgba(148,163,184,0.22);
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --text3:    #475569;
+  --text4:    #1e293b;
+  --accent:   #6366f1;
+  --accent2:  #818cf8;
+  --accent3:  #a5b4fc;
+  --accent-bg:rgba(99,102,241,0.08);
+  --accent-b: rgba(99,102,241,0.22);
+  --teal:     #2dd4bf;
+  --teal-bg:  rgba(45,212,191,0.08);
+  --teal-b:   rgba(45,212,191,0.2);
+  --sky:      #38bdf8;
+  --sky-bg:   rgba(56,189,248,0.08);
+  --sky-b:    rgba(56,189,248,0.2);
+  --violet:   #a78bfa;
+  --violet-bg:rgba(167,139,250,0.08);
+  --violet-b: rgba(167,139,250,0.2);
+  --rose:     #fb7185;
+  --rose-bg:  rgba(251,113,133,0.08);
+  --rose-b:   rgba(251,113,133,0.2);
+  --amber:    #fbbf24;
+  --amber-bg: rgba(251,191,36,0.08);
+  --amber-b:  rgba(251,191,36,0.2);
+  --emerald:  #34d399;
+  --emerald-bg:rgba(52,211,153,0.08);
+  --emerald-b: rgba(52,211,153,0.2);
+  --orange:   #fb923c;
+  --orange-bg:rgba(251,146,60,0.08);
+  --orange-b: rgba(251,146,60,0.2);
+  --sun:      #facc15;
+  --sun-bg:   rgba(250,204,21,0.08);
+  --sun-b:    rgba(250,204,21,0.22);
+  --lime:     #a3e635;
+  --lime-bg:  rgba(163,230,53,0.08);
+  --lime-b:   rgba(163,230,53,0.22);
+
+  /* iOS safe area */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;height:100%;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.6;
+  min-height:100vh;overflow-x:hidden;
+  padding-top:var(--sat);
+  padding-bottom:calc(var(--sab) + 16px);
+  padding-left:var(--sal);padding-right:var(--sar);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── background ── */
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 22s ease-in-out infinite alternate;}
+.orb1{width:500px;height:500px;background:rgba(99,102,241,0.08);top:-160px;left:-120px;}
+.orb2{width:380px;height:380px;background:rgba(45,212,191,0.05);top:40%;right:-100px;animation-delay:-8s;}
+.orb3{width:450px;height:450px;background:rgba(167,139,250,0.04);bottom:-100px;left:20%;animation-delay:-16s;}
+@keyframes float{0%{transform:translate(0,0)}100%{transform:translate(20px,15px) scale(1.04)}}
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(148,163,184,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(148,163,184,0.03) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,black 10%,transparent 100%);
+}
+
+/* ── layout ── */
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 40px;position:relative;z-index:1;}
+
+/* ── sticky top bar ── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(13,15,20,0.85);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:0.5px solid var(--border);
+  padding:10px 16px;margin:0 -16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.topbar-title{font-weight:600;font-size:15px;letter-spacing:-0.01em;}
+.topbar-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);}
+.topbar-score{
+  font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;
+  color:var(--accent2);
+}
+.topbar-score span{font-size:11px;color:var(--text3);}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--emerald);
+  box-shadow:0 0 6px var(--emerald);flex-shrink:0;
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── header ── */
+.hdr{padding:20px 0 24px;border-bottom:0.5px solid var(--border);margin-bottom:4px;}
+.hdr-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--accent3);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.hdr-eyebrow::before{content:'';width:16px;height:1px;background:var(--accent3);}
+.hdr h1{
+  font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;
+  line-height:1.05;letter-spacing:-0.02em;
+}
+.hdr h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--accent3) 0%,var(--teal) 60%,var(--sky) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hdr-sub{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.6;}
+.hdr-badges{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
+.date-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg3);border:0.5px solid var(--border3);
+  border-radius:8px;padding:5px 11px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);
+}
+.day-chip{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--accent3);background:var(--accent-bg);
+  border:0.5px solid var(--accent-b);border-radius:8px;padding:5px 11px;
+}
+
+/* ── score card ── */
+.score-card{
+  display:grid;grid-template-columns:1fr 88px;gap:14px;align-items:center;
+  background:var(--bg2);border:0.5px solid var(--border2);
+  border-radius:18px;padding:18px 20px;margin:16px 0 12px;
+  position:relative;overflow:hidden;
+}
+.score-card::after{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:linear-gradient(135deg,rgba(99,102,241,0.05),transparent 55%);
+  pointer-events:none;
+}
+.sc-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:9px;}
+.sc-track{height:3px;background:var(--bg5);border-radius:2px;margin-bottom:9px;position:relative;overflow:visible;}
+.sc-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--teal));
+  transition:width .7s cubic-bezier(.4,0,.2,1);position:relative;
+}
+.sc-fill::after{
+  content:'';position:absolute;right:-1px;top:-4px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--accent2);box-shadow:0 0 10px rgba(99,102,241,.5);
+}
+.sc-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);display:flex;gap:12px;flex-wrap:wrap;}
+.sc-num{font-family:'JetBrains Mono',monospace;font-size:46px;font-weight:500;color:var(--accent2);line-height:1;text-shadow:0 0 30px rgba(129,140,248,.2);text-align:center;}
+.sc-num span{font-size:13px;color:var(--text3);}
+.sc-grade{font-size:10px;text-align:center;margin-top:3px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;}
+
+/* ── chips row ── */
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:11px 8px;text-align:center;}
+.chip-l{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:3px;}
+.chip-v{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;}
+
+/* ── calendar ── */
+.cal-wrap{background:var(--bg2);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.cal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.cal-title{font-family:'DM Serif Display',serif;font-size:15px;font-style:italic;}
+.cal-nav{display:flex;gap:4px;}
+.cal-nav button{
+  background:var(--bg4);border:0.5px solid var(--border2);color:var(--text2);
+  border-radius:7px;padding:5px 12px;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  min-width:36px;min-height:36px;
+}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px;}
+.cal-dlbl{text-align:center;font-size:8px;color:var(--text4);font-family:'JetBrains Mono',monospace;padding:2px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.dcell{
+  aspect-ratio:1;border-radius:5px;background:var(--bg4);border:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);
+}
+.dcell.today{border-color:var(--accent2);color:var(--accent2);box-shadow:0 0 6px rgba(99,102,241,.2);}
+.dcell.future{opacity:.2;}
+.dcell.great{background:rgba(99,102,241,.3);border-color:rgba(99,102,241,.5);color:var(--accent3);}
+.dcell.good{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3);color:var(--accent3);}
+.dcell.low{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.3);color:var(--amber);}
+.cal-leg{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;}
+.cl{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text3);}
+.cldot{width:8px;height:8px;border-radius:2px;}
+
+/* ── section headers ── */
+.sec{display:flex;align-items:center;gap:9px;margin:26px 0 9px;}
+.sec-time{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  background:var(--bg3);border:0.5px solid var(--border3);
+  border-radius:5px;padding:3px 8px;color:var(--accent3);
+  white-space:nowrap;flex-shrink:0;letter-spacing:.04em;
+}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);flex-shrink:0;}
+.sec-line{flex:1;height:.5px;background:var(--border);}
+
+/* ── check items ── */
+.item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px 14px;border-radius:14px;
+  border:0.5px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:background .15s,border-color .15s;
+  margin-bottom:6px;user-select:none;position:relative;overflow:hidden;
+  /* min touch target */
+  min-height:52px;
+}
+.item::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:transparent;transition:background .15s;border-radius:14px 0 0 14px;
+}
+.item:active{background:var(--bg3);}
+.item.done{background:var(--accent-bg);border-color:rgba(99,102,241,.2);}
+.item.done::before{background:var(--accent);}
+.item.done .ititle{text-decoration:line-through;opacity:.5;}
+.item.done .isub{opacity:.35;}
+
+.item.ex::before{background:rgba(251,146,60,.25);}
+.item.ex{border-color:rgba(251,146,60,.1);}
+.item.ex.done{background:var(--orange-bg);border-color:var(--orange-b);}
+.item.ex.done::before{background:var(--orange);}
+
+.item.supp::before{background:rgba(45,212,191,.18);}
+.item.supp{border-color:rgba(45,212,191,.07);}
+
+.item.acl::before{background:rgba(163,230,53,.25);}
+.item.acl{border-color:rgba(163,230,53,.1);}
+.item.acl.done{background:var(--lime-bg);border-color:var(--lime-b);}
+.item.acl.done::before{background:var(--lime);}
+
+.item.vitd::before{background:rgba(250,204,21,.3);}
+.item.vitd{border-color:rgba(250,204,21,.12);}
+.item.vitd.done{background:var(--sun-bg);border-color:var(--sun-b);}
+.item.vitd.done::before{background:var(--sun);}
+.item.vitd-inactive{opacity:.32;pointer-events:none;}
+
+.cbox{
+  width:22px;height:22px;flex-shrink:0;margin-top:2px;
+  border-radius:6px;border:1.5px solid var(--border3);
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.item.done .cbox{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px rgba(99,102,241,.35);}
+.item.ex.done .cbox{background:var(--orange);border-color:var(--orange);box-shadow:0 0 8px rgba(251,146,60,.3);}
+.item.acl.done .cbox{background:var(--lime);border-color:var(--lime);box-shadow:0 0 8px rgba(163,230,53,.3);}
+.item.vitd.done .cbox{background:var(--sun);border-color:var(--sun);box-shadow:0 0 8px rgba(250,204,21,.35);}
+.ccheck{display:none;color:#0d0f14;font-size:13px;font-weight:700;line-height:1;}
+.item.done .ccheck{display:block;}
+
+.ibody{flex:1;min-width:0;}
+.ititle{font-size:13px;font-weight:500;line-height:1.35;margin-bottom:3px;}
+.isub{font-size:11.5px;color:var(--text2);line-height:1.45;}
+.itags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:500;font-family:'JetBrains Mono',monospace;}
+.tg{background:var(--emerald-bg);color:var(--emerald);border:0.5px solid var(--emerald-b);}
+.ta{background:var(--amber-bg);color:var(--amber);border:0.5px solid var(--amber-b);}
+.tr{background:var(--rose-bg);color:var(--rose);border:0.5px solid var(--rose-b);}
+.tb{background:var(--sky-bg);color:var(--sky);border:0.5px solid var(--sky-b);}
+.tp{background:var(--violet-bg);color:var(--violet);border:0.5px solid var(--violet-b);}
+.tt{background:var(--teal-bg);color:var(--teal);border:0.5px solid var(--teal-b);}
+.tc{background:var(--orange-bg);color:var(--orange);border:0.5px solid var(--orange-b);}
+.ts{background:var(--sun-bg);color:var(--sun);border:0.5px solid var(--sun-b);}
+.tl{background:var(--lime-bg);color:var(--lime);border:0.5px solid var(--lime-b);}
+.tlbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);white-space:nowrap;flex-shrink:0;margin-top:3px;}
+
+/* ── metrics ── */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.mc{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 13px;}
+.mc-l{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:6px;}
+.mc-v{font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:500;color:var(--accent2);margin-bottom:6px;}
+.mc-v span{font-size:12px;color:var(--text3);}
+.mc input[type=range]{
+  width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;
+  height:4px;border-radius:2px;background:var(--bg5);outline:none;
+}
+.mc input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--accent2);cursor:pointer;box-shadow:0 0 6px rgba(99,102,241,.4);
+}
+
+/* ── water ── */
+.water-row{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0;}
+.wdot{
+  width:36px;height:36px;border-radius:9px;
+  border:0.5px solid var(--border2);background:var(--bg4);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;color:var(--text3);transition:all .12s;
+}
+.wdot.on{background:var(--sky-bg);border-color:var(--sky);color:var(--sky);}
+
+/* ── steps ── */
+.steps-wrap{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.steps-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.steps-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;color:var(--teal);}
+.steps-bar{height:3px;background:var(--bg5);border-radius:2px;overflow:hidden;margin-bottom:8px;}
+.steps-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--sky));transition:width .3s;}
+.steps-wrap input[type=range]{
+  width:100%;-webkit-appearance:none;appearance:none;cursor:pointer;
+  height:4px;border-radius:2px;background:var(--bg5);outline:none;
+}
+.steps-wrap input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--teal);cursor:pointer;box-shadow:0 0 5px rgba(45,212,191,.4);
+}
+
+/* ── progress ── */
+.prog-wrap{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+.prog-hdr{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:12px;}
+.pr{margin-bottom:10px;}
+.pr:last-child{margin-bottom:0;}
+.pr-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2);margin-bottom:4px;}
+.pr-top span:last-child{font-family:'JetBrains Mono',monospace;font-size:10px;}
+.pr-track{height:3px;background:var(--bg5);border-radius:2px;overflow:hidden;}
+.pr-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+/* ── bool checks ── */
+.bools{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+
+/* ── insights ── */
+.insight{
+  border-radius:11px;padding:11px 14px;font-size:12px;line-height:1.55;
+  margin-bottom:7px;border-left:2px solid;
+  border-top:0.5px solid;border-right:0.5px solid;border-bottom:0.5px solid;
+}
+.ig{background:var(--accent-bg);border-color:rgba(99,102,241,.3);color:var(--accent3);}
+.ia{background:var(--amber-bg);border-color:rgba(251,191,36,.3);color:#fde68a;}
+.ir{background:var(--rose-bg);border-color:rgba(251,113,133,.3);color:#fda4af;}
+.ib{background:var(--sky-bg);border-color:rgba(56,189,248,.3);color:#7dd3fc;}
+.is{background:var(--sun-bg);border-color:rgba(250,204,21,.3);color:#fef08a;}
+.il{background:var(--lime-bg);border-color:rgba(163,230,53,.3);color:#bef264;}
+
+/* ── install banner ── */
+.install-banner{
+  display:none;
+  background:var(--accent-bg);border:0.5px solid var(--accent-b);
+  border-radius:14px;padding:14px 16px;margin:14px 0;
+  align-items:center;gap:12px;
+}
+.install-banner.show{display:flex;}
+.install-banner p{flex:1;font-size:12px;color:var(--accent3);line-height:1.5;}
+.install-btn{
+  background:var(--accent);color:#fff;border:none;
+  border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;
+  cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;
+}
+
+/* ── iOS install guide ── */
+.ios-guide{
+  display:none;
+  background:var(--bg2);border:0.5px solid var(--border2);
+  border-radius:14px;padding:16px;margin:14px 0;
+}
+.ios-guide.show{display:block;}
+.ios-guide h3{font-size:13px;font-weight:600;margin-bottom:10px;color:var(--accent3);}
+.ios-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-size:12px;color:var(--text2);}
+.ios-num{
+  width:20px;height:20px;border-radius:50%;background:var(--accent-bg);
+  border:0.5px solid var(--accent-b);color:var(--accent3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;flex-shrink:0;
+}
+.ios-dismiss{
+  width:100%;background:transparent;border:0.5px solid var(--border2);
+  border-radius:8px;padding:8px;font-size:12px;color:var(--text3);
+  cursor:pointer;margin-top:10px;font-family:'Inter',sans-serif;
+}
+
+/* ── submit ── */
+.submit{
+  width:100%;padding:16px;font-size:14px;font-weight:500;
+  font-family:'Inter',system-ui,sans-serif;letter-spacing:.01em;
+  cursor:pointer;border-radius:14px;margin-top:8px;
+  border:0.5px solid rgba(99,102,241,.35);
+  background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(45,212,191,.04));
+  color:var(--accent2);transition:all .2s;
+  min-height:52px;
+}
+.submit:active{opacity:.8;transform:scale(.99);}
+
+/* ── toast ── */
+.toast{
+  position:fixed;bottom:calc(20px + var(--sab));left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--bg3);border:0.5px solid var(--border3);
+  color:var(--accent2);border-radius:11px;padding:10px 20px;
+  font-size:13px;font-weight:500;z-index:200;white-space:nowrap;
+  transition:transform .32s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 28px rgba(0,0,0,.4);
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── footer ── */
+.fdiv{height:.5px;background:var(--border);margin:28px 0 20px;}
+.ftargets{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px;}
+.fpill{
+  padding:2px 8px;border-radius:4px;font-size:9px;
+  background:var(--bg3);border:0.5px solid var(--border);
+  color:var(--text3);font-family:'JetBrains Mono',monospace;
+}
+.foot{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text4);text-align:center;line-height:2;letter-spacing:.03em;padding-bottom:10px;}
+
+/* ── history drawer ── */
+.hist-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.hist-overlay.open{display:block;}
+.hist-drawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:101;
+  background:var(--bg2);border-top:0.5px solid var(--border2);
+  border-radius:20px 20px 0 0;
+  max-height:88vh;overflow-y:auto;
+  padding:0 0 calc(24px + var(--sab));
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.32,1,.32,1);
+}
+.hist-drawer.open{transform:translateY(0);}
+.hist-handle{
+  width:36px;height:4px;border-radius:2px;background:var(--border3);
+  margin:12px auto 0;
+}
+.hist-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 10px;border-bottom:0.5px solid var(--border);
+  position:sticky;top:0;background:var(--bg2);z-index:1;
+}
+.hist-title{font-size:15px;font-weight:600;}
+.hist-close{
+  width:30px;height:30px;border-radius:50%;background:var(--bg4);
+  border:0.5px solid var(--border2);color:var(--text2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
+}
+.hist-summary{padding:14px 18px 0;display:flex;gap:8px;flex-wrap:wrap;}
+.hist-stat{
+  background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;
+  padding:8px 12px;text-align:center;flex:1;min-width:70px;
+}
+.hist-stat .hl{font-size:9px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:3px;}
+.hist-stat .hv{font-size:17px;font-weight:500;font-family:'JetBrains Mono',monospace;}
+.hist-entries{padding:10px 18px;}
+.hist-entry{
+  background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;
+  padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;
+}
+.hist-entry:hover,.hist-entry:active{border-color:var(--border2);}
+.hist-entry-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.hist-entry-date{font-size:13px;font-weight:500;}
+.hist-entry-score{
+  font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:500;
+}
+.hist-entry-bars{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.hbar-row{font-size:11px;color:var(--text2);}
+.hbar-label{display:flex;justify-content:space-between;margin-bottom:3px;}
+.hbar-track{height:3px;background:var(--bg5);border-radius:2px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:2px;}
+.hist-metrics{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+.hmet{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);}
+.hmet span{color:var(--text2);}
+.hist-empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px;line-height:1.6;}
+.hist-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;font-size:13px;font-weight:500;
+  background:var(--bg3);border:0.5px solid var(--border2);border-radius:12px;
+  color:var(--text2);cursor:pointer;margin-top:2px;font-family:'Inter',sans-serif;
+  min-height:48px;
+}
+.hist-btn:active{opacity:.8;}
+/* cal tap hint */
+.cal-hint{font-size:9px;color:var(--text4);font-family:'JetBrains Mono',monospace;margin-top:6px;text-align:center;}
+
+/* ── notification panel ── */
+.notif-bell{
+  position:fixed;bottom:calc(28px + var(--sab));right:20px;z-index:90;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:22px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform .15s;
+}
+.notif-bell:active{transform:scale(.92);}
+.bell-badge{
+  position:absolute;top:6px;right:6px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--emerald);border:2px solid var(--bg);display:none;
+}
+.bell-badge.show{display:block;}
+.notif-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.notif-overlay.open{display:block;}
+.notif-drawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:101;
+  background:var(--bg2);border-top:0.5px solid var(--border2);
+  border-radius:20px 20px 0 0;
+  padding:0 0 calc(28px + var(--sab));
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.32,1,.32,1);
+  max-height:85vh;overflow-y:auto;
+}
+.notif-drawer.open{transform:translateY(0);}
+.notif-handle{width:36px;height:4px;border-radius:2px;background:var(--border3);margin:12px auto 0;}
+.notif-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 10px;border-bottom:0.5px solid var(--border);
+  position:sticky;top:0;background:var(--bg2);z-index:1;
+}
+.notif-hdr-title{font-size:15px;font-weight:600;}
+.notif-close{
+  width:30px;height:30px;border-radius:50%;background:var(--bg4);
+  border:0.5px solid var(--border2);color:var(--text2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
+}
+.notif-body{padding:16px 18px;}
+.notif-status-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg3);border:0.5px solid var(--border2);
+  border-radius:12px;padding:14px 16px;margin-bottom:14px;gap:10px;
+}
+.notif-status-left{flex:1;}
+.notif-status-lbl{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:4px;}
+#notifStatus{font-size:12px;line-height:1.5;}
+#notifBtn{
+  background:var(--accent);color:#fff;border:none;
+  border-radius:8px;padding:9px 16px;font-size:12px;font-weight:600;
+  cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;flex-shrink:0;min-height:38px;
+}
+.notif-section-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px;}
+.notif-task-list{display:flex;flex-direction:column;gap:4px;}
+.notif-task-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px;border-radius:9px;background:var(--bg3);border:0.5px solid var(--border);
+}
+.notif-task-name{font-size:12px;color:var(--text);flex:1;}
+.notif-task-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);flex-shrink:0;margin-left:10px;}
+.notif-task-row.done-task{opacity:.4;}
+.notif-ios-note{
+  background:var(--sky-bg);border:0.5px solid var(--sky-b);
+  border-radius:10px;padding:12px 14px;margin-top:14px;
+  font-size:11.5px;color:#7dd3fc;line-height:1.6;
+}
+.notif-ios-note strong{color:var(--sky);}
+</style>
+</head>
+<body>
+
+<div class="bg-wrap">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="grid-bg"></div>
+
+<div class="wrap">
+
+<!-- STICKY TOP BAR (visible while scrolling) -->
+<div class="topbar" id="topbar" style="display:none;">
+  <div class="topbar-left">
+    <div class="live-dot"></div>
+    <div>
+      <div class="topbar-title">SK Tracker</div>
+      <div class="topbar-date" id="topbarDate"></div>
+    </div>
+  </div>
+  <div class="topbar-score" id="topbarScore">0<span>/100</span></div>
+</div>
+
+<!-- iOS INSTALL GUIDE -->
+<div class="ios-guide" id="iosGuide">
+  <h3>📲 Add to Home Screen</h3>
+  <div class="ios-step"><div class="ios-num">1</div><div>Tap the <strong>Share button</strong> (box with arrow ↑) at the bottom of Safari</div></div>
+  <div class="ios-step"><div class="ios-num">2</div><div>Scroll down and tap <strong>"Add to Home Screen"</strong></div></div>
+  <div class="ios-step"><div class="ios-num">3</div><div>Tap <strong>Add</strong> — opens full-screen like a native app, works offline</div></div>
+  <button class="ios-dismiss" onclick="dismissInstall()">Got it ✓</button>
+</div>
+
+<!-- INSTALL BANNER for Android/Chrome -->
+<div class="install-banner" id="installBanner">
+  <p>Install as app on your home screen — works offline</p>
+  <button class="install-btn" id="installBtn">Install</button>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-eyebrow">Hashimoto's reversal · 6-month protocol</div>
+  <h1>Sai Krishna<br><em>Daily Tracker</em></h1>
+  <div class="hdr-sub">
+    FNC Plan · Vineesha Reddy · Sep 8, 2026 – Mar 5, 2027<br>
+    Anti-TPO 445 → &lt;200 · TG 248 → &lt;130 · B12 342 → &gt;600
+  </div>
+  <div class="hdr-badges">
+    <div class="date-chip"><span class="live-dot"></span><span id="hdrDate">Loading…</span></div>
+    <div class="day-chip" id="dayChip">Day — of 180</div>
+  </div>
+</div>
+
+<!-- SCORE -->
+<div class="score-card">
+  <div>
+    <div class="sc-label">Today's adherence score</div>
+    <div class="sc-track"><div class="sc-fill" id="scFill" style="width:0%"></div></div>
+    <div class="sc-meta">
+      <span id="mMeals">Meals 0/7</span>
+      <span id="mSupps">Supps 0/6</span>
+      <span id="mHabits">Habits 0/7</span>
+    </div>
+  </div>
+  <div>
+    <div class="sc-num" id="scNum">0<span>/100</span></div>
+    <div class="sc-grade" id="scGrade" style="color:var(--text3)">—</div>
+  </div>
+</div>
+
+<!-- CHIPS -->
+<div class="chips">
+  <div class="chip"><div class="chip-l">Meals</div><div class="chip-v" id="cMeals" style="color:var(--accent2)">0/7</div></div>
+  <div class="chip"><div class="chip-l">Supps</div><div class="chip-v" id="cSupps" style="color:var(--teal)">0/6</div></div>
+  <div class="chip"><div class="chip-l">Habits</div><div class="chip-v" id="cHabits" style="color:var(--violet)">0/7</div></div>
+  <div class="chip"><div class="chip-l">Water</div><div class="chip-v" id="cWater" style="color:var(--sky)">0/3L</div></div>
+</div>
+
+<!-- CALENDAR -->
+<div class="cal-wrap">
+  <div class="cal-hdr">
+    <span class="cal-title" id="calName">June 2026</span>
+    <div class="cal-nav">
+      <button onclick="calMove(-1)" aria-label="Previous month">←</button>
+      <button onclick="calMove(1)" aria-label="Next month">→</button>
+    </div>
+  </div>
+  <div class="cal-days">
+    <div class="cal-dlbl">M</div><div class="cal-dlbl">T</div><div class="cal-dlbl">W</div>
+    <div class="cal-dlbl">T</div><div class="cal-dlbl">F</div><div class="cal-dlbl">S</div><div class="cal-dlbl">S</div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+  <div class="cal-leg">
+    <div class="cl"><div class="cldot" style="background:rgba(99,102,241,.35)"></div>80–100</div>
+    <div class="cl"><div class="cldot" style="background:rgba(99,102,241,.14)"></div>50–79</div>
+    <div class="cl"><div class="cldot" style="background:rgba(251,191,36,.14)"></div>&lt;50</div>
+    <div class="cl"><div class="cldot" style="border:1px solid var(--accent2)"></div>Today</div>
+  </div>
+  <div class="cal-hint">Tap any logged date to view that day's data</div>
+</div>
+
+<!-- View History button -->
+<button class="hist-btn" onclick="openHistory()">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  View previous days history
+</button>
+
+<!-- HISTORY OVERLAY + DRAWER -->
+<div class="hist-overlay" id="histOverlay" onclick="closeHistory()"></div>
+<div class="hist-drawer" id="histDrawer">
+  <div class="hist-handle"></div>
+  <div class="hist-header">
+    <span class="hist-title">Previous Days</span>
+    <div class="hist-close" onclick="closeHistory()">✕</div>
+  </div>
+  <div class="hist-summary" id="histSummary"></div>
+  <div class="hist-entries" id="histEntries"></div>
+</div>
+
+<!-- ══ MORNING RITUAL ══ -->
+<div class="sec"><span class="sec-time">6:00 AM</span><span class="sec-label">Morning ritual</span><div class="sec-line"></div></div>
+
+<div class="item" id="i0" onclick="tog('i0','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Soaked coriander (dhaniya) water — 1 glass</div>
+    <div class="isub">Soak 1 tsp dhaniya in 200ml overnight. First thing before anything else. Liver detox + anti-inflammatory start.</div>
+    <div class="itags"><span class="tag tt">Liver detox</span><span class="tag tr">Anti-TPO</span></div>
+  </div>
+  <div class="tlbl">6:00 AM</div>
+</div>
+
+<div class="item" id="i1" onclick="tog('i1','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">1–2 Brazil nuts — selenium (max 2/day)</div>
+    <div class="isub">100–200 mcg selenium. Strongest food intervention for Anti-TPO 445 reduction. Never exceed 2.</div>
+    <div class="itags"><span class="tag tr">Anti-TPO</span><span class="tag tg">Selenium</span></div>
+  </div>
+  <div class="tlbl">6:05 AM</div>
+</div>
+
+<div class="item" id="i2" onclick="tog('i2','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Left nostril breathing — 5 minutes</div>
+    <div class="isub">Close right nostril. Breathe only through left. Reduces cortisol → lowers autoimmune thyroid attack.</div>
+    <div class="itags"><span class="tag tp">Cortisol control</span><span class="tag tr">Autoimmune</span></div>
+  </div>
+  <div class="tlbl">6:10 AM</div>
+</div>
+
+<div class="item" id="i3" onclick="tog('i3','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Sunlight — 15 min outdoors</div>
+    <div class="isub">Direct skin exposure, 9–11 AM ideal. Raises Vit D 38.3 → 60+ ng/mL. Critical for immune tolerance.</div>
+    <div class="itags"><span class="tag ts">Vit D 38→65</span><span class="tag tr">Immune</span></div>
+  </div>
+  <div class="tlbl">6:15 AM</div>
+</div>
+
+<div class="item" id="i_coffee" onclick="tog('i_coffee','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Black coffee — 1 cup, no sugar, no milk</div>
+    <div class="isub">Plain black coffee only. Boosts metabolism and fat oxidation — supports TG reduction. Do not add sugar or dairy. Best before 9 AM, avoid after 2 PM to protect sleep quality and melatonin.</div>
+    <div class="itags"><span class="tag ta">TG reduction</span><span class="tag tc">Metabolism</span><span class="tag tp">Before 2 PM only</span></div>
+  </div>
+  <div class="tlbl">6:20 AM</div>
+</div>
+
+<!-- ══ ACL EXERCISES ══ -->
+<div class="sec">
+  <span class="sec-time" style="color:var(--lime);border-color:var(--lime-b)">6:20–7:00 AM</span>
+  <span class="sec-label">ACL rehabilitation</span>
+  <div class="sec-line"></div>
+</div>
+
+<div class="item acl" id="acl1" onclick="tog('acl1','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Quad sets — 3 × 15 reps each leg</div>
+    <div class="isub">Lie flat, tighten quad by pressing back of knee to floor. Hold 5 sec, release. Rebuilds VMO activation post-ACL. Essential foundation exercise.</div>
+    <div class="itags"><span class="tag tl">ACL rehab</span><span class="tag tl">VMO activation</span></div>
+  </div>
+  <div class="tlbl">6:20 AM</div>
+</div>
+
+<div class="item acl" id="acl2" onclick="tog('acl2','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Straight leg raises — 3 × 15 reps each leg</div>
+    <div class="isub">Lie flat, tighten quad, lift leg to 45°, hold 2 sec, lower slowly. Strengthens quad without stressing the joint. Keep core braced throughout.</div>
+    <div class="itags"><span class="tag tl">Quad strength</span><span class="tag tl">No joint stress</span></div>
+  </div>
+  <div class="tlbl">6:25 AM</div>
+</div>
+
+<div class="item acl" id="acl3" onclick="tog('acl3','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Heel slides — 3 × 15 reps each leg</div>
+    <div class="isub">Lie flat, slowly slide heel toward glutes bending the knee, hold briefly, slide back. Restores knee flexion range of motion. Go to comfortable end range only — no pain.</div>
+    <div class="itags"><span class="tag tl">Range of motion</span><span class="tag tl">Flexion</span></div>
+  </div>
+  <div class="tlbl">6:30 AM</div>
+</div>
+
+<div class="item acl" id="acl4" onclick="tog('acl4','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Clamshells — 3 × 15 reps each side</div>
+    <div class="isub">Lie on side, knees bent, feet together. Open top knee like a clamshell without rotating pelvis. Activates glute med — critical hip stability for ACL protection.</div>
+    <div class="itags"><span class="tag tl">Glute med</span><span class="tag tl">Hip stability</span></div>
+  </div>
+  <div class="tlbl">6:35 AM</div>
+</div>
+
+<div class="item acl" id="acl5" onclick="tog('acl5','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Short arc quads — 3 × 15 reps each leg</div>
+    <div class="isub">Place rolled towel under knee, straighten leg fully, hold 5 sec, lower slowly. Targets terminal knee extension — weakest point post-ACL. Restores full lockout strength.</div>
+    <div class="itags"><span class="tag tl">Terminal extension</span><span class="tag tl">ACL rehab</span></div>
+  </div>
+  <div class="tlbl">6:40 AM</div>
+</div>
+
+<div class="item acl" id="acl6" onclick="tog('acl6','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Standing mini squats — 3 × 15 reps</div>
+    <div class="isub">Hold support, feet shoulder-width, bend to 30–45° only, keep knee over 2nd toe. Builds functional quad strength in safe ROM. Advance depth as strength improves weekly.</div>
+    <div class="itags"><span class="tag tl">Functional strength</span><span class="tag tl">Safe ROM</span></div>
+  </div>
+  <div class="tlbl">6:45 AM</div>
+</div>
+
+<div class="item acl" id="acl7" onclick="tog('acl7','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Ice pack on knee — 15 min post exercises</div>
+    <div class="isub">Wrap ice in cloth, apply to knee for 15 min. Reduces post-exercise inflammation and swelling. Critical recovery step — do not skip after rehab session.</div>
+    <div class="itags"><span class="tag tl">Recovery</span><span class="tag tl">Inflammation control</span></div>
+  </div>
+  <div class="tlbl">7:00 AM</div>
+</div>
+
+<!-- ══ MORNING WORKOUT ══ -->
+<div class="sec">
+  <span class="sec-time" style="color:var(--orange);border-color:var(--orange-b)">7:15–8:15 AM</span>
+  <span class="sec-label">Cult Fitness workout</span>
+  <div class="sec-line"></div>
+</div>
+
+<div class="item ex" id="i_ex1" onclick="tog('i_ex1','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Pre-workout fuel — 2 boiled eggs + 1 banana</div>
+    <div class="isub">15 min before training. Never train fasted with Hashimoto's — cortisol spikes on empty stomach worsen autoimmunity.</div>
+    <div class="itags"><span class="tag tc">Pre-workout</span><span class="tag tg">Cortisol protect</span></div>
+  </div>
+  <div class="tlbl">7:00 AM</div>
+</div>
+
+<div class="item ex" id="i_ex2" onclick="tog('i_ex2','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Workout — Zone 2 cardio OR upper body strength</div>
+    <div class="isub">Zone 2: Treadmill 5.5–6.5 km/h or bike, HR 115–135 bpm (30–40 min). Strength (ACL-safe): bench, rows, lat pulldown, shoulder press, core. No leg press or squats until physio clears.</div>
+    <div class="itags"><span class="tag tc">HDL 31→45+</span><span class="tag ta">TG reduction</span><span class="tag tl">ACL-safe only</span></div>
+  </div>
+  <div class="tlbl">7:15 AM</div>
+</div>
+
+<div class="item ex supp" id="i_ex3" onclick="tog('i_ex3','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">L-Glutamine — 5g in water within 20 min post-workout</div>
+    <div class="isub">Seals gut lining post-exercise (permeability spikes post-workout, driving Anti-TPO). Prevents cortisol-driven gut damage. Also supports ACL tissue recovery.</div>
+    <div class="itags"><span class="tag tt">Gut lining</span><span class="tag tr">Anti-TPO</span><span class="tag tc">ACL recovery</span></div>
+  </div>
+  <div class="tlbl">Post-workout</div>
+</div>
+
+<div class="item ex" id="i_ex4" onclick="tog('i_ex4','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Post-workout meal — protein + carbs within 45 min</div>
+    <div class="isub">2 eggs + 4 almonds + 1 fruit OR protein shake + walnut 4 + ½ apple. Drives nutrients to muscle and ACL graft repair, not fat storage.</div>
+    <div class="itags"><span class="tag tg">Muscle + ACL repair</span><span class="tag ta">Insulin window</span></div>
+  </div>
+  <div class="tlbl">8:00 AM</div>
+</div>
+
+<!-- ══ BREAKFAST ══ -->
+<div class="sec"><span class="sec-time">8:30–9:30 AM</span><span class="sec-label">Breakfast</span><div class="sec-line"></div></div>
+
+<div class="item" id="i4" onclick="tog('i4','meal')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Gluten-free breakfast — egg meal (FNC plan)</div>
+    <div class="isub">Avocado egg bowl / Jowar spinach dosa + egg / Veggie omelette / Tofu scramble. Add 1 tbsp ground flaxseeds + ½ tsp kalonji + 1 cup sauteed spinach or fenugreek.</div>
+    <div class="itags"><span class="tag tr">Zero gluten</span><span class="tag tb">Protein 20–25g</span><span class="tag tp">Flax omega-3</span></div>
+  </div>
+  <div class="tlbl">8:30 AM</div>
+</div>
+
+<div class="item supp" id="i5" onclick="tog('i5','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Vitamin B12 — 1 tablet methylcobalamin</div>
+    <div class="isub">Raises B12 342 → 600+ pg/mL. Primary fix for brain fog 7/10. Lowers homocysteine 12.77 → &lt;9. Every day.</div>
+    <div class="itags"><span class="tag tb">B12 342→600+</span><span class="tag tp">Brain fog 7/10</span></div>
+  </div>
+  <div class="tlbl">After BF</div>
+</div>
+
+<!-- ══ MID-MORNING ══ -->
+<div class="sec"><span class="sec-time">11:00 AM</span><span class="sec-label">Mid-morning</span><div class="sec-line"></div></div>
+
+<div class="item supp" id="i6" onclick="tog('i6','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Liver detox supplement — 1 tablet at 11 AM</div>
+    <div class="isub">80% of T4→T3 conversion in liver. Directly raises FT3 2.94 → 3.5+, improving energy, cold sensitivity, metabolism.</div>
+    <div class="itags"><span class="tag tt">T3 conversion</span><span class="tag tg">Liver support</span></div>
+  </div>
+  <div class="tlbl">11:00 AM</div>
+</div>
+
+<div class="item" id="i7" onclick="tog('i7','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">½ tsp turmeric + pinch black pepper in warm water</div>
+    <div class="isub">Black pepper increases curcumin absorption 2000×. Suppresses NF-κB — master thyroid inflammation switch driving Anti-TPO 445.</div>
+    <div class="itags"><span class="tag tr">Anti-inflammatory</span><span class="tag tr">Anti-TPO</span></div>
+  </div>
+  <div class="tlbl">11:05 AM</div>
+</div>
+
+<!-- ══ LUNCH ══ -->
+<div class="sec"><span class="sec-time">12:45–2:00 PM</span><span class="sec-label">Lunch sequence</span><div class="sec-line"></div></div>
+
+<div class="item supp" id="i8" onclick="tog('i8','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Berberine — 1 tablet (30 min BEFORE lunch)</div>
+    <div class="isub">Must be pre-meal. Targets Trig/HDL 7.93 and fasting insulin 8.29. 20–35% TG reduction in 8 weeks.</div>
+    <div class="itags"><span class="tag ta">TG 248→&lt;130</span><span class="tag ta">Insulin</span></div>
+  </div>
+  <div class="tlbl">12:45 PM</div>
+</div>
+
+<div class="item" id="i9" onclick="tog('i9','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Psyllium husk — 1 tsp in water before lunch</div>
+    <div class="isub">Soluble fiber traps cholesterol and TG before absorption. 15–20% TG reduction in 8 weeks. Drink immediately after mixing.</div>
+    <div class="itags"><span class="tag ta">TG reduction</span><span class="tag tg">Gut fiber</span></div>
+  </div>
+  <div class="tlbl">12:50 PM</div>
+</div>
+
+<div class="item" id="i10" onclick="tog('i10','meal')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Lunch — salad → protein → rice (FNC plan)</div>
+    <div class="isub">Brown/single-polished rice max 1 cup + green leafy dal 1 cup + sauteed veg 1 cup + egg curry or sardines 100g (3×/week). Beets or spinach for iron + B9.</div>
+    <div class="itags"><span class="tag tg">Fiber first</span><span class="tag tb">Iron + B9</span><span class="tag ta">Max 1 cup rice</span></div>
+  </div>
+  <div class="tlbl">1:00 PM</div>
+</div>
+
+<!-- VITAMIN D — weekly Tuesday item -->
+<div class="item vitd" id="i_vitd" onclick="tog('i_vitd','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">
+      Vitamin D3 + K2 — 1 tablet post lunch
+      <span id="vitdBadge" style="display:none;margin-left:6px;font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--sun-bg);border:0.5px solid var(--sun-b);color:var(--sun);border-radius:4px;padding:2px 7px;vertical-align:middle;">☀ TUE — Take now</span>
+      <span id="vitdNext" style="display:none;margin-left:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);"></span>
+    </div>
+    <div class="isub">Once per week on Tuesday, post-lunch with fat-containing meal. Raises Vit D 38.3 → 60–70 ng/mL. Always take with K2.</div>
+    <div class="itags"><span class="tag ts">☀ Weekly — Tuesday</span><span class="tag ts">Vit D 38→65</span><span class="tag tg">Always with K2</span></div>
+  </div>
+  <div class="tlbl">Post lunch</div>
+</div>
+
+<div class="item" id="i11" onclick="tog('i11','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">15-minute walk after lunch</div>
+    <div class="isub">Start within 30 min. Reduces post-meal glucose spike. Most effective daily TG-lowering habit. Gentle pace — ACL safe.</div>
+    <div class="itags"><span class="tag ta">Post-meal glucose</span><span class="tag ta">TG clearance</span></div>
+  </div>
+  <div class="tlbl">1:45 PM</div>
+</div>
+
+<div class="item" id="i12" onclick="tog('i12','meal')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Buttermilk (chaas) — 1 glass post lunch</div>
+    <div class="isub">Probiotic → gut microbiome → T4→T3 conversion (20% in gut) → reduces thyroid autoimmune activity.</div>
+    <div class="itags"><span class="tag tt">Probiotic</span><span class="tag tt">Gut-thyroid axis</span></div>
+  </div>
+  <div class="tlbl">After lunch</div>
+</div>
+
+<!-- ══ EVENING ══ -->
+<div class="sec"><span class="sec-time">5:00 PM</span><span class="sec-label">Evening snack</span><div class="sec-line"></div></div>
+
+<div class="item" id="i13" onclick="tog('i13','meal')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Evening snack — low-GI (FNC plan)</div>
+    <div class="isub">Makhana + fruit + seeds / Sprouts ½ cup / Kosambari 1 cup / Roasted chickpeas. Add 1 tbsp soaked chia + 1 tbsp pumpkin seeds. Low-GI fruit: guava, apple, kiwi.</div>
+    <div class="itags"><span class="tag tg">Low GI</span><span class="tag tb">Zinc + selenium</span><span class="tag tp">Omega-3</span></div>
+  </div>
+  <div class="tlbl">5:00 PM</div>
+</div>
+
+<!-- ══ DINNER ══ -->
+<div class="sec"><span class="sec-time">8:00–8:30 PM</span><span class="sec-label">Dinner</span><div class="sec-line"></div></div>
+
+<div class="item" id="i14" onclick="tog('i14','meal')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Dinner — millet roti + legume curry (before 8:30 PM)</div>
+    <div class="isub">Jowar/bajra roti 2–3 + chana/moong/rajma curry 1 cup + sauteed veg 1 cup. Add ½ tsp moringa to dal. Vegetables first. No rice. Strict 8:30 cutoff.</div>
+    <div class="itags"><span class="tag tr">Zero gluten millet</span><span class="tag tb">Plant protein</span><span class="tag tr">Before 8:30 PM</span></div>
+  </div>
+  <div class="tlbl">8:00 PM</div>
+</div>
+
+<div class="item supp" id="i15" onclick="tog('i15','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Curcumin — 1 tablet post dinner</div>
+    <div class="isub">Fat from dinner increases absorption 20×. Targets Anti-TPO 445 and lymphocyte elevation 45.7%. NF-κB inhibitor.</div>
+    <div class="itags"><span class="tag tr">Anti-TPO</span><span class="tag tr">Anti-inflammatory</span></div>
+  </div>
+  <div class="tlbl">After dinner</div>
+</div>
+
+<div class="item" id="i16" onclick="tog('i16','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">15-minute gentle walk after dinner</div>
+    <div class="isub">Gentle pace, ACL safe. TG clearance after day's meals. Overnight blood sugar regulation.</div>
+    <div class="itags"><span class="tag ta">TG clearance</span><span class="tag tg">Digestion</span></div>
+  </div>
+  <div class="tlbl">8:30 PM</div>
+</div>
+
+<!-- ══ NIGHT ══ -->
+<div class="sec"><span class="sec-time">9:30–10:30 PM</span><span class="sec-label">Night recovery</span><div class="sec-line"></div></div>
+
+<div class="item supp" id="i17" onclick="tog('i17','supp')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Magnesium glycinate — 300mg</div>
+    <div class="isub">Deepens sleep → normalises TSH rhythm → reduces cortisol → reduces Anti-TPO. Also supports ACL tissue repair overnight. Glycinate form only.</div>
+    <div class="itags"><span class="tag tp">Sleep 5/10</span><span class="tag tp">TSH support</span><span class="tag tl">ACL repair</span></div>
+  </div>
+  <div class="tlbl">9:30 PM</div>
+</div>
+
+<div class="item" id="i18" onclick="tog('i18','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Yoga Nidra — 10–20 min (Insight Timer app)</div>
+    <div class="isub">Search "Yoga Nidra deep sleep". Reduces cortisol, increases BDNF. Measurably reduces inflammatory cytokines driving Anti-TPO.</div>
+    <div class="itags"><span class="tag tp">Cortisol → Anti-TPO</span><span class="tag tp">Brain fog</span></div>
+  </div>
+  <div class="tlbl">9:45 PM</div>
+</div>
+
+<div class="item" id="i19" onclick="tog('i19','habit')">
+  <div class="cbox"><span class="ccheck">✓</span></div>
+  <div class="ibody">
+    <div class="ititle">Screens off — in bed by 10:00–10:30 PM</div>
+    <div class="isub">Blue light suppresses melatonin → disrupts cortisol → worsens Hashimoto's. 7+ hrs sleep required for TSH diurnal rhythm.</div>
+    <div class="itags"><span class="tag ta">Melatonin</span><span class="tag ta">TSH rhythm</span></div>
+  </div>
+  <div class="tlbl">10:00 PM</div>
+</div>
+
+<!-- ══ DAILY METRICS ══ -->
+<div class="sec"><span class="sec-time" style="color:var(--teal);border-color:var(--teal-b)">End of day</span><span class="sec-label">Daily metrics</span><div class="sec-line"></div></div>
+
+<div class="metrics">
+  <div class="mc"><div class="mc-l">Weight (kg)</div><div class="mc-v" id="mvWt">74.0</div><input type="range" min="60" max="95" value="74" step="0.5" id="slWt" oninput="updM('mvWt',this.value,1)"></div>
+  <div class="mc"><div class="mc-l">Sleep (hrs)</div><div class="mc-v" id="mvSlp">7.0</div><input type="range" min="3" max="12" value="7" step="0.5" id="slSlp" oninput="updM('mvSlp',this.value,1)"></div>
+  <div class="mc"><div class="mc-l">Energy</div><div class="mc-v" id="mvEn">5<span>/10</span></div><input type="range" min="1" max="10" value="5" step="1" id="slEn" oninput="updM('mvEn',this.value,0,'/10')"></div>
+  <div class="mc"><div class="mc-l">Brain fog</div><div class="mc-v" id="mvBf">7<span>/10</span></div><input type="range" min="1" max="10" value="7" step="1" id="slBf" oninput="updM('mvBf',this.value,0,'/10')"></div>
+  <div class="mc"><div class="mc-l">Mood</div><div class="mc-v" id="mvMd">6<span>/10</span></div><input type="range" min="1" max="10" value="6" step="1" id="slMd" oninput="updM('mvMd',this.value,0,'/10')"></div>
+  <div class="mc"><div class="mc-l">Stress</div><div class="mc-v" id="mvSt">5<span>/10</span></div><input type="range" min="1" max="10" value="5" step="1" id="slSt" oninput="updM('mvSt',this.value,0,'/10')"></div>
+  <div class="mc"><div class="mc-l">Knee pain (0=none)</div><div class="mc-v" id="mvKn">0<span>/10</span></div><input type="range" min="0" max="10" value="0" step="1" id="slKn" oninput="updM('mvKn',this.value,0,'/10')"></div>
+  <div class="mc"><div class="mc-l">Knee swelling</div><div class="mc-v" id="mvKs">0<span>/10</span></div><input type="range" min="0" max="10" value="0" step="1" id="slKs" oninput="updM('mvKs',this.value,0,'/10')"></div>
+</div>
+
+<!-- Water -->
+<div class="sec"><span class="sec-time" style="color:var(--sky);border-color:var(--sky-b)">Target 3L</span><span class="sec-label">Water — tap each glass (250 ml)</span><div class="sec-line"></div></div>
+<div class="water-row" id="waterDots"></div>
+<div id="waterLbl" style="font-size:10px;color:var(--text2);margin:4px 0 12px;font-family:'JetBrains Mono',monospace;">0 of 12 · 0.0 L</div>
+
+<!-- Steps -->
+<div class="steps-wrap">
+  <div class="steps-top">
+    <span style="font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace;">Steps today</span>
+    <span class="steps-num" id="stepsVal">0</span>
+  </div>
+  <div class="steps-bar"><div class="steps-fill" id="stepsFill" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--text3);margin-bottom:8px;">
+    <span>0</span><span style="color:var(--teal)">Goal 10,000</span><span>15,000</span>
+  </div>
+  <input type="range" min="0" max="15000" value="0" step="500" style="width:100%" oninput="updSteps(this.value)">
+</div>
+
+<!-- Progress -->
+<div class="prog-wrap">
+  <div class="prog-hdr">Today's progress</div>
+  <div class="pr"><div class="pr-top"><span>Meals</span><span id="ppM">0%</span></div><div class="pr-track"><div class="pr-fill" id="pfM" style="width:0%;background:var(--accent2)"></div></div></div>
+  <div class="pr"><div class="pr-top"><span>Supplements</span><span id="ppS">0%</span></div><div class="pr-track"><div class="pr-fill" id="pfS" style="width:0%;background:var(--teal)"></div></div></div>
+  <div class="pr"><div class="pr-top"><span>Habits</span><span id="ppH">0%</span></div><div class="pr-track"><div class="pr-fill" id="pfH" style="width:0%;background:var(--violet)"></div></div></div>
+  <div class="pr"><div class="pr-top"><span>Hydration</span><span id="ppW">0%</span></div><div class="pr-track"><div class="pr-fill" id="pfW" style="width:0%;background:var(--sky)"></div></div></div>
+</div>
+
+<!-- Elimination -->
+<div class="sec"><span class="sec-time" style="color:var(--rose);border-color:var(--rose-b)">Critical</span><span class="sec-label">Elimination checks</span><div class="sec-line"></div></div>
+<div class="bools">
+  <div class="item" id="gCheck" onclick="togBool('gCheck')">
+    <div class="cbox"><span class="ccheck">✓</span></div>
+    <div class="ibody">
+      <div class="ititle">Gluten-free today?</div>
+      <div class="isub">No wheat, maida, suji, atta. Jowar/bajra/ragi only.</div>
+      <span class="tag tr" style="margin-top:5px;display:inline-block;">Anti-TPO critical</span>
+    </div>
+  </div>
+  <div class="item" id="dCheck" onclick="togBool('dCheck')">
+    <div class="cbox"><span class="ccheck">✓</span></div>
+    <div class="ibody">
+      <div class="ititle">Dairy-free today?</div>
+      <div class="isub">No cow's milk. Curd/buttermilk OK.</div>
+      <span class="tag ta" style="margin-top:5px;display:inline-block;">Trial elimination</span>
+    </div>
+  </div>
+</div>
+
+<!-- Insights -->
+<div class="sec"><span class="sec-time" id="liveDot" style="animation:pulse 2s infinite">Live</span><span class="sec-label">Today's insights</span><div class="sec-line"></div></div>
+<div id="insightsArea"></div>
+
+<button class="submit" onclick="submitDay()">→ &nbsp; Send today's data to Claude for analysis</button>
+
+<div class="fdiv"></div>
+<div class="ftargets">
+  <span class="fpill">Anti-TPO 445→&lt;200</span>
+  <span class="fpill">TG 248→&lt;130</span>
+  <span class="fpill">HDL 31→&gt;45</span>
+  <span class="fpill">TSH 4.81→1.5–2.5</span>
+  <span class="fpill">B12 342→&gt;600</span>
+  <span class="fpill">VitD 38→60–70</span>
+  <span class="fpill">Wt 74→69 kg</span>
+</div>
+<div class="foot">
+  Sai Krishna Katla · 33Y · M · 173 cm · 74 kg · BMI 25<br>
+  FNC Plan · Vineesha Reddy · Sep 8, 2026 – Mar 5, 2027
+</div>
+
+</div><!-- /wrap -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Vitamin D Tuesday logic ──
+const todayDOW = new Date().getDay();
+const isTue = todayDOW === 2;
+const daysUntilTue = isTue ? 0 : (2 - todayDOW + 7) % 7;
+const vitdItem   = document.getElementById('i_vitd');
+const vitdBadge  = document.getElementById('vitdBadge');
+const vitdNext   = document.getElementById('vitdNext');
+
+if (isTue) {
+  vitdBadge.style.display = 'inline-block';
+  vitdItem.classList.remove('vitd-inactive');
+} else {
+  vitdItem.classList.add('vitd-inactive');
+  vitdNext.style.display = 'inline-block';
+  vitdNext.textContent = '(next Tue: ' + daysUntilTue + (daysUntilTue===1?' day':' days') + ')';
+}
+
+// ── State ──
+const counts = { meal:0, supp:0, habit:0 };
+const totals = { meal:7, supp: isTue?7:6, habit:7 };
+
+const itemTypes = {
+  i0:'habit', i1:'habit', i2:'habit', i3:'habit',
+  i_coffee:'habit',
+  acl1:'habit', acl2:'habit', acl3:'habit', acl4:'habit',
+  acl5:'habit', acl6:'habit', acl7:'habit',
+  i_ex1:'habit', i_ex2:'habit', i_ex3:'supp', i_ex4:'habit',
+  i4:'meal', i5:'supp', i6:'supp', i7:'habit',
+  i8:'supp', i9:'habit', i10:'meal',
+  i_vitd:'supp',
+  i11:'habit', i12:'meal',
+  i13:'meal', i14:'meal', i15:'supp', i16:'habit',
+  i17:'supp', i18:'habit', i19:'habit'
+};
+
+const doneSet = new Set();
+let waterCount = 0;
+let calY=2026, calM=8;
+const SK='sk_pwa_v1';
+
+const getTodayKey = () => {
+  const t = new Date();
+  return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+};
+
+// ── Sticky topbar on scroll ──
+const topbar = document.getElementById('topbar');
+window.addEventListener('scroll', () => {
+  topbar.style.display = window.scrollY > 160 ? 'flex' : 'none';
+}, {passive:true});
+
+// ── Save / Load ──
+function saveState() {
+  const data = JSON.parse(localStorage.getItem(SK)||'{}');
+  data[getTodayKey()] = {
+    score: parseInt(document.getElementById('scNum').textContent),
+    done:[...doneSet], water:waterCount,
+    wt:document.getElementById('slWt').value,
+    slp:document.getElementById('slSlp').value,
+    en:document.getElementById('slEn').value,
+    bf:document.getElementById('slBf').value,
+    md:document.getElementById('slMd').value,
+    st:document.getElementById('slSt').value,
+    kn:document.getElementById('slKn').value,
+    ks:document.getElementById('slKs').value,
+    steps:document.getElementById('stepsVal').textContent.replace(/,/g,''),
+    gluten:document.getElementById('gCheck').classList.contains('done'),
+    dairy:document.getElementById('dCheck').classList.contains('done')
+  };
+  localStorage.setItem(SK, JSON.stringify(data));
+}
+
+function loadToday() {
+  const data = JSON.parse(localStorage.getItem(SK)||'{}');
+  const d = data[getTodayKey()];
+  if (!d) return;
+  (d.done||[]).forEach(id => {
+    if (id==='i_vitd' && !isTue) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('done');
+    const t = itemTypes[id]; if(t) counts[t]++;
+    doneSet.add(id);
+  });
+  waterCount = d.water||0;
+  document.querySelectorAll('.wdot').forEach((dot,i)=>{ if(i<waterCount) dot.classList.add('on'); });
+  updateWaterLbl();
+  const sv = (slId, mvId, dec, suf) => {
+    const sl=document.getElementById(slId), val=d[slId.replace('sl','').toLowerCase()]||d[slId.slice(2).toLowerCase()];
+    if(sl&&val){ sl.value=val; updM(mvId,val,dec,suf); }
+  };
+  if(d.wt){document.getElementById('slWt').value=d.wt;updM('mvWt',d.wt,1);}
+  if(d.slp){document.getElementById('slSlp').value=d.slp;updM('mvSlp',d.slp,1);}
+  if(d.en){document.getElementById('slEn').value=d.en;updM('mvEn',d.en,0,'/10');}
+  if(d.bf){document.getElementById('slBf').value=d.bf;updM('mvBf',d.bf,0,'/10');}
+  if(d.md){document.getElementById('slMd').value=d.md;updM('mvMd',d.md,0,'/10');}
+  if(d.st){document.getElementById('slSt').value=d.st;updM('mvSt',d.st,0,'/10');}
+  if(d.kn){document.getElementById('slKn').value=d.kn;updM('mvKn',d.kn,0,'/10');}
+  if(d.ks){document.getElementById('slKs').value=d.ks;updM('mvKs',d.ks,0,'/10');}
+  if(d.steps){
+    updSteps(d.steps);
+    const sr=document.querySelector('input[oninput="updSteps(this.value)"]');
+    if(sr) sr.value=d.steps;
+  }
+  if(d.gluten) document.getElementById('gCheck').classList.add('done');
+  if(d.dairy)  document.getElementById('dCheck').classList.add('done');
+  updateStats();
+}
+
+// ── Toggle ──
+function tog(id, type) {
+  if (id==='i_vitd' && !isTue) return;
+  const el = document.getElementById(id);
+  if (doneSet.has(id)) {
+    doneSet.delete(id); el.classList.remove('done');
+    counts[type]=Math.max(0,counts[type]-1);
+  } else {
+    doneSet.add(id); el.classList.add('done');
+    counts[type]++; showToast('✓ Done');
+  }
+  updateStats(); saveState();
+}
+function togBool(id){
+  document.getElementById(id).classList.toggle('done'); saveState();
+}
+
+// ── Stats ──
+function updateStats() {
+  const mP = Math.round(counts.meal/totals.meal*100);
+  const sP = Math.round(counts.supp/totals.supp*100);
+  const hP = Math.round(counts.habit/totals.habit*100);
+  const wP = Math.min(100,Math.round(waterCount/12*100));
+  const score = Math.round(mP*.35+sP*.25+hP*.25+wP*.15);
+
+  document.getElementById('scNum').innerHTML=score+'<span>/100</span>';
+  document.getElementById('scFill').style.width=score+'%';
+  document.getElementById('topbarScore').innerHTML=score+'<span>/100</span>';
+
+  const g=document.getElementById('scGrade');
+  if(score>=90){g.textContent='Exceptional';g.style.color='var(--emerald)';}
+  else if(score>=75){g.textContent='Strong';g.style.color='var(--teal)';}
+  else if(score>=60){g.textContent='Good';g.style.color='var(--accent2)';}
+  else if(score>=40){g.textContent='Moderate';g.style.color='var(--amber)';}
+  else{g.textContent='Low';g.style.color='var(--text3)';}
+
+  document.getElementById('cMeals').textContent=counts.meal+'/'+totals.meal;
+  document.getElementById('cSupps').textContent=counts.supp+'/'+totals.supp;
+  document.getElementById('cHabits').textContent=counts.habit+'/'+totals.habit;
+  document.getElementById('mMeals').textContent='Meals '+counts.meal+'/'+totals.meal;
+  document.getElementById('mSupps').textContent='Supps '+counts.supp+'/'+totals.supp;
+  document.getElementById('mHabits').textContent='Habits '+counts.habit+'/'+totals.habit;
+
+  document.getElementById('pfM').style.width=mP+'%'; document.getElementById('ppM').textContent=mP+'%';
+  document.getElementById('pfS').style.width=sP+'%'; document.getElementById('ppS').textContent=sP+'%';
+  document.getElementById('pfH').style.width=hP+'%'; document.getElementById('ppH').textContent=hP+'%';
+  document.getElementById('pfW').style.width=wP+'%'; document.getElementById('ppW').textContent=wP+'%';
+
+  genInsights(score);
+}
+
+function genInsights(score) {
+  const a=document.getElementById('insightsArea'); a.innerHTML='';
+  const ins=[];
+
+  if(score>=80) ins.push({c:'ig',m:`Strong day — ${score}/100. Consistent 80%+ adherence will show measurable Anti-TPO reduction by week 6.`});
+  else if(score>=60) ins.push({c:'ib',m:`Good progress — ${score}/100. A few more items and you reach the threshold for meaningful biomarker change.`});
+  else if(score>=40) ins.push({c:'ia',m:`Moderate — ${score}/100. Hashimoto's reversal needs 80%+ consistently. Find the one friction point and fix it tonight.`});
+  else ins.push({c:'ir',m:`Score ${score}/100. Identify the obstacle — habit, time, or prep issue — and solve it before tomorrow.`});
+
+  // ACL insights
+  const aclDone = ['acl1','acl2','acl3','acl4','acl5','acl6'].filter(id=>doneSet.has(id)).length;
+  const aclTotal = 6;
+  if(aclDone===aclTotal) ins.push({c:'il',m:`All ${aclTotal} ACL exercises done — excellent consistency. Quad strength and knee stability improve cumulatively. Log knee pain score daily to track progress.`});
+  else if(aclDone>0) ins.push({c:'il',m:`ACL rehab: ${aclDone}/${aclTotal} exercises done. Complete the remaining ${aclTotal-aclDone} — skipping sets delays strength recovery. Each rep builds the graft tissue.`});
+  else ins.push({c:'ia',m:'ACL exercises not started — do them first thing after morning ritual. Only 40 min. Skipping delays functional recovery significantly.'});
+
+  if(!doneSet.has('acl7')) ins.push({c:'ia',m:'Ice pack after ACL exercises missed — 15 min ice reduces post-exercise swelling and speeds recovery. Do it now if exercises are done.'});
+
+  const kn = parseInt(document.getElementById('slKn').value||0);
+  if(kn>=5) ins.push({c:'ir',m:`Knee pain ${kn}/10 — high today. Rest from ACL exercises if pain is > 6. Apply ice 3× today. Check if yesterday's exercises caused overload.`});
+  else if(kn>0&&kn<5) ins.push({c:'ia',m:`Knee pain ${kn}/10 — mild. Proceed with exercises but reduce reps by 30%. Ice after. Log if it worsens over the week.`});
+  else if(kn===0&&doneSet.has('acl1')) ins.push({c:'il',m:'No knee pain today — this is a great sign. Tissue healing is progressing well.'});
+
+  if(!doneSet.has('i1')) ins.push({c:'ir',m:'Brazil nuts missed — daily selenium is your #1 food intervention for Anti-TPO 445. Non-negotiable. Set a 6 AM alarm.'});
+  if(!doneSet.has('i_ex3')) ins.push({c:'ir',m:'L-Glutamine missed — gut permeability spikes post-workout. Take it now if within 2 hrs of finishing. It also supports ACL graft tissue repair.'});
+  if(!doneSet.has('i5')) ins.push({c:'ia',m:'B12 missed — brain fog 7/10 will not improve until B12 rises from 342 → 600+. Every day matters.'});
+  if(waterCount<8) ins.push({c:'ia',m:`Water low (${(waterCount*.25).toFixed(1)}L). Dehydration slows ACL tissue repair and impairs T4→T3 conversion. Tap those glasses.`});
+  if(isTue&&!doneSet.has('i_vitd')) ins.push({c:'is',m:'Vitamin D missed — Tuesday is your weekly dose. Take D3 + K2 post lunch now. Critical for immune tolerance and Anti-TPO reduction.'});
+  if(isTue&&doneSet.has('i_vitd')) ins.push({c:'ig',m:'Vitamin D taken — consistent weekly dosing will raise Vit D from 38.3 → 60–70 ng/mL over 3 months, reducing Anti-TPO.'});
+  if(doneSet.has('i18')) ins.push({c:'ig',m:'Yoga Nidra done — cortisol dropping. Consistent practice measurably reduces inflammatory cytokines driving Anti-TPO.'});
+
+  ins.slice(0,6).forEach(i=>{
+    const d=document.createElement('div');
+    d.className='insight '+i.c; d.textContent=i.m; a.appendChild(d);
+  });
+  if(!ins.length) a.innerHTML='<div class="insight ig">All complete — protocol at full capacity. Exceptional.</div>';
+}
+
+function updM(id,val,dec,suf){
+  const v=dec>0?parseFloat(val).toFixed(dec):parseInt(val);
+  document.getElementById(id).innerHTML=v+(suf?`<span>${suf}</span>`:'');
+  saveState();
+}
+function updSteps(val){
+  const v=parseInt(val);
+  document.getElementById('stepsVal').textContent=v.toLocaleString();
+  document.getElementById('stepsFill').style.width=Math.min(100,Math.round(v/10000*100))+'%';
+  saveState();
+}
+
+function updateWaterLbl(){
+  const L=(waterCount*.25).toFixed(1);
+  document.getElementById('waterLbl').textContent=`${waterCount} of 12 · ${L} L`;
+  document.getElementById('cWater').textContent=L+'/3L';
+}
+const wdWrap=document.getElementById('waterDots');
+for(let i=0;i<12;i++){
+  const d=document.createElement('div');
+  d.className='wdot'; d.innerHTML='&#9670;';
+  d.onclick=()=>{
+    const f=d.classList.contains('on');
+    if(f){d.classList.remove('on');waterCount--;}
+    else{d.classList.add('on');waterCount++;}
+    updateWaterLbl(); updateStats(); saveState();
+  };
+  wdWrap.appendChild(d);
+}
+
+function renderCal(){
+  const grid=document.getElementById('calGrid'); grid.innerHTML='';
+  const data=JSON.parse(localStorage.getItem(SK)||'{}');
+  const today=new Date();
+  const s0=new Date(2026,8,8), s1=new Date(2027,2,5);
+  document.getElementById('calName').textContent=new Date(calY,calM).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const fd=new Date(calY,calM,1); let dow=fd.getDay(); dow=dow===0?6:dow-1;
+  const dim=new Date(calY,calM+1,0).getDate();
+  for(let i=0;i<dow;i++){const b=document.createElement('div');b.style.aspectRatio='1';grid.appendChild(b);}
+  for(let d=1;d<=dim;d++){
+    const cell=document.createElement('div'); cell.className='dcell'; cell.textContent=d;
+    const cd=new Date(calY,calM,d);
+    const key=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    if(cd.toDateString()===today.toDateString()) cell.classList.add('today');
+    else if(cd>today||cd<s0||cd>s1) cell.classList.add('future');
+    if(data[key]){
+      const s=data[key].score||0;
+      if(s>=80)cell.classList.add('great');
+      else if(s>=50)cell.classList.add('good');
+      else cell.classList.add('low');
+      cell.title='Score: '+s+'/100 — tap to view';
+      cell.style.cursor='pointer';
+      const capKey=key;
+      cell.onclick=()=>openHistory(capKey);
+    }
+    grid.appendChild(cell);
+  }
+}
+function calMove(dir){calM+=dir;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
+
+let tt;
+function showToast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('show'),1800);
+}
+
+function submitDay(){
+  const wt=document.getElementById('slWt').value;
+  const slp=document.getElementById('slSlp').value;
+  const en=document.getElementById('slEn').value;
+  const bf=document.getElementById('slBf').value;
+  const md=document.getElementById('slMd').value;
+  const st=document.getElementById('slSt').value;
+  const kn=document.getElementById('slKn').value;
+  const ks=document.getElementById('slKs').value;
+  const steps=document.getElementById('stepsVal').textContent;
+  const water=(waterCount*.25).toFixed(1);
+  const mP=Math.round(counts.meal/totals.meal*100);
+  const sP=Math.round(counts.supp/totals.supp*100);
+  const hP=Math.round(counts.habit/totals.habit*100);
+  const score=parseInt(document.getElementById('scNum').textContent);
+  const gluten=document.getElementById('gCheck').classList.contains('done')?'Yes':'No';
+  const dairy=document.getElementById('dCheck').classList.contains('done')?'Yes':'No';
+  const workout=doneSet.has('i_ex2')?'Yes':'No';
+  const glutamine=doneSet.has('i_ex3')?'Yes':'No';
+  const vitd=isTue?(doneSet.has('i_vitd')?'Yes — taken (Tuesday)':'Missed — Tuesday dose'):'N/A (not Tuesday)';
+  const aclIds=['acl1','acl2','acl3','acl4','acl5','acl6','acl7'];
+  const aclDone=aclIds.filter(id=>doneSet.has(id)).length;
+  const ds=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  const missed=[];
+  Object.keys(itemTypes).forEach(id=>{
+    if(id==='i_vitd'&&!isTue) return;
+    if(!doneSet.has(id)){const el=document.getElementById(id);if(el){const t=el.querySelector('.ititle');if(t)missed.push(t.childNodes[0].textContent.trim().substring(0,44));}}
+  });
+  const msg=`Daily health update — ${ds}
+
+DAY SCORE: ${score}/100
+Meals: ${mP}% | Supplements: ${sP}% | Habits: ${hP}%
+Water: ${water}L | Steps: ${steps}
+
+METRICS:
+Weight: ${wt} kg | Sleep: ${parseFloat(slp).toFixed(1)} hrs
+Energy: ${en}/10 | Brain fog: ${bf}/10 | Mood: ${md}/10 | Stress: ${st}/10
+
+ACL REHAB:
+Exercises done: ${aclDone}/7 | Knee pain: ${kn}/10 | Knee swelling: ${ks}/10
+
+EXERCISE & GUT:
+Workout: ${workout} | L-Glutamine post-workout: ${glutamine}
+
+SUPPLEMENTS:
+Vitamin D3 (weekly Tuesday): ${vitd}
+
+ELIMINATION:
+Gluten-free: ${gluten} | Dairy-free: ${dairy}
+
+MISSED (${missed.length}):
+${missed.length>0?missed.map((m,i)=>`${i+1}. ${m}`).join('\n'):'Nothing — perfect day!'}
+
+Baseline: Brain fog 7/10, Fatigue 4/10, Cold sensitivity 5/10, Hair loss 5/10, Sleep 5/10, Weight 74 kg, Anti-TPO 445, TG 248, HDL 31, TSH 4.81, B12 342, Vit D 38.3. ACL rehab ongoing.
+Please give me: (1) what went well, (2) one key fix for tomorrow, (3) ACL recovery note, (4) one specific biomarker insight from today's data.`;
+
+  const ta=document.createElement('textarea'); ta.value=msg; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{document.execCommand('copy');showToast('Copied — paste in Claude');}
+  catch(e){showToast('Long-press text above and Copy All');}
+  document.body.removeChild(ta);
+  setTimeout(()=>window.open('https://claude.ai','_blank'),700);
+  saveState(); renderCal();
+}
+
+// ── iOS install guide ──
+function showIOSGuide(){
+  const g=document.getElementById('iosGuide');
+  if(!localStorage.getItem('installDismissed')) g.classList.add('show');
+}
+function dismissInstall(){
+  document.getElementById('iosGuide').classList.remove('show');
+  localStorage.setItem('installDismissed','1');
+}
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.navigator.standalone === true;
+if(isIOS && !isStandalone && !localStorage.getItem('installDismissed')) showIOSGuide();
+
+// ── Android PWA install ──
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault(); deferredPrompt=e;
+  document.getElementById('installBanner').classList.add('show');
+});
+document.getElementById('installBtn').addEventListener('click',async()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const {outcome} = await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  document.getElementById('installBanner').classList.remove('show');
+  if(outcome==='accepted') showToast('App installed! Open from home screen.');
+});
+
+// ── Init ──
+const now=new Date();
+const dateStr=now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('hdrDate').textContent=dateStr;
+document.getElementById('topbarDate').textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+const diff=Math.floor((now-new Date(2026,8,8))/86400000);
+document.getElementById('dayChip').textContent='Day '+(diff>=0?diff+1:'—')+' of 180';
+
+['slWt','slSlp','slEn','slBf','slMd','slSt','slKn','slKs'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('change',saveState);
+});
+
+// ── Service Worker with Push Notification support ──
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'sk-tracker-v2';
+    const ASSETS = ['/'];
+
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => {
+      e.waitUntil(clients.claim());
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/'))));
+    });
+
+    // Handle scheduled notification alarms
+    self.addEventListener('message', e => {
+      if (e.data && e.data.type === 'SCHEDULE_NOTIFICATIONS') {
+        // Store schedule in SW scope
+        self.notifSchedule = e.data.schedule;
+      }
+    });
+
+    // Show notification from main thread trigger
+    self.addEventListener('message', e => {
+      if (e.data && e.data.type === 'SHOW_NOTIF') {
+        self.registration.showNotification(e.data.title, {
+          body: e.data.body,
+          icon: e.data.icon || '',
+          badge: e.data.icon || '',
+          tag: e.data.tag || 'sk-notif',
+          renotify: true,
+          requireInteraction: false,
+          silent: false,
+          data: { url: '/' }
+        });
+      }
+    });
+
+    self.addEventListener('notificationclick', e => {
+      e.notification.close();
+      e.waitUntil(clients.matchAll({type:'window'}).then(cs => {
+        if (cs.length) { cs[0].focus(); return; }
+        clients.openWindow('/');
+      }));
+    });
+  `;
+  const swBlob = new Blob([swCode], {type:'application/javascript'});
+  const swUrl  = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl)
+    .then(reg => { window._swReg = reg; })
+    .catch(() => {});
+}
+
+// ── Notification Schedule — all tasks with times ──
+const NOTIF_SCHEDULE = [
+  // id, label, hour, minute (notification fires 2 min before)
+  { id:'i0',       label:'Coriander water time',            h:5,  m:58 },
+  { id:'i1',       label:'Brazil nuts — selenium dose',     h:6,  m:3  },
+  { id:'i2',       label:'Left nostril breathing — 5 min', h:6,  m:8  },
+  { id:'i_coffee', label:'Black coffee time ☕',             h:6,  m:13 },
+  { id:'i3',       label:'Sunlight — 15 min outdoors',      h:6,  m:18 },
+  { id:'acl1',     label:'ACL rehab starting — quad sets',  h:6,  m:18 },
+  { id:'acl2',     label:'ACL — straight leg raises',       h:6,  m:23 },
+  { id:'acl3',     label:'ACL — heel slides',               h:6,  m:28 },
+  { id:'acl4',     label:'ACL — clamshells',                h:6,  m:33 },
+  { id:'acl5',     label:'ACL — short arc quads',           h:6,  m:38 },
+  { id:'acl6',     label:'ACL — mini squats',               h:6,  m:43 },
+  { id:'acl7',     label:'Ice pack on knee — 15 min',       h:6,  m:58 },
+  { id:'i_ex1',    label:'Pre-workout fuel — eggs + banana',h:7,  m:13 },
+  { id:'i_ex2',    label:'Workout time — Cult Fitness 💪',  h:7,  m:13 },
+  { id:'i_ex3',    label:'L-Glutamine post-workout',        h:8,  m:0  },
+  { id:'i4',       label:'Breakfast time — gluten-free',    h:8,  m:28 },
+  { id:'i5',       label:'Vitamin B12 — take after breakfast', h:8,m:58 },
+  { id:'i6',       label:'Liver detox supplement — 11 AM', h:10, m:58 },
+  { id:'i7',       label:'Turmeric + pepper water',         h:11, m:3  },
+  { id:'i8',       label:'Berberine — 30 min before lunch', h:12, m:43 },
+  { id:'i9',       label:'Psyllium husk before lunch',      h:12, m:48 },
+  { id:'i10',      label:'Lunch time — salad → protein → rice', h:12, m:58 },
+  { id:'i_vitd',   label:'Vitamin D3+K2 — Tuesday dose ☀️', h:13, m:28, tuesdayOnly:true },
+  { id:'i11',      label:'15-min walk after lunch',         h:13, m:28 },
+  { id:'i12',      label:'Buttermilk (chaas) post-lunch',   h:13, m:43 },
+  { id:'i13',      label:'Evening snack — low GI time',     h:16, m:58 },
+  { id:'i14',      label:'Dinner time — millet roti + dal', h:19, m:58 },
+  { id:'i15',      label:'Curcumin — take after dinner',    h:20, m:28 },
+  { id:'i16',      label:'15-min walk after dinner',        h:20, m:28 },
+  { id:'i17',      label:'Magnesium glycinate — 300mg',     h:21, m:28 },
+  { id:'i18',      label:'Yoga Nidra — 10–20 min',          h:21, m:43 },
+  { id:'i19',      label:'Screens off — in bed by 10 PM',   h:21, m:58 },
+];
+
+let _notifTimers = [];
+
+function clearNotifTimers() {
+  _notifTimers.forEach(t => clearTimeout(t));
+  _notifTimers = [];
+}
+
+function scheduleNotifications() {
+  clearNotifTimers();
+  if (Notification.permission !== 'granted') return;
+  const notifEnabled = localStorage.getItem('sk_notif') !== 'off';
+  if (!notifEnabled) return;
+
+  const now = new Date();
+  const today = now.getDay(); // 0=Sun, 2=Tue
+
+  NOTIF_SCHEDULE.forEach(task => {
+    // Skip Vit D on non-Tuesday
+    if (task.tuesdayOnly && today !== 2) return;
+
+    const fireAt = new Date();
+    fireAt.setHours(task.h, task.m, 0, 0);
+
+    const msUntil = fireAt - now;
+    if (msUntil < 0) return; // already passed today
+
+    const timer = setTimeout(() => {
+      fireNotif(task);
+    }, msUntil);
+    _notifTimers.push(timer);
+  });
+
+  console.log(`SK Tracker: ${_notifTimers.length} notifications scheduled for today`);
+}
+
+function fireNotif(task) {
+  // Skip if already done
+  if (doneSet.has(task.id)) return;
+
+  const title = '⏰ ' + task.label;
+  const body  = 'Tap to open tracker and mark complete';
+
+  // Try via Service Worker (works when app is in background)
+  if (window._swReg && window._swReg.active) {
+    window._swReg.active.postMessage({
+      type: 'SHOW_NOTIF',
+      title, body,
+      tag: task.id,
+      icon: ''
+    });
+  } else if (Notification.permission === 'granted') {
+    // Fallback: direct Notification API (foreground only)
+    new Notification(title, { body, tag: task.id, icon: '' });
+  }
+}
+
+async function requestNotifPermission() {
+  if (!('Notification' in window)) {
+    showToast('Notifications not supported on this browser');
+    return;
+  }
+
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    localStorage.setItem('sk_notif', 'on');
+    scheduleNotifications();
+    showToast('✓ Notifications enabled — 2-min alerts set!');
+    updateNotifPanel();
+  } else if (perm === 'denied') {
+    showToast('Blocked — enable in iOS Settings → Safari → Notifications');
+    updateNotifPanel();
+  } else {
+    showToast('Permission dismissed — tap Enable again to retry');
+  }
+}
+
+function toggleNotif() {
+  const current = localStorage.getItem('sk_notif');
+  if (current === 'off') {
+    localStorage.setItem('sk_notif', 'on');
+    scheduleNotifications();
+    showToast('Notifications on');
+  } else {
+    localStorage.setItem('sk_notif', 'off');
+    clearNotifTimers();
+    showToast('Notifications off');
+  }
+  updateNotifPanel();
+}
+
+function updateNotifPanel() {
+  const perm    = 'Notification' in window ? Notification.permission : 'unsupported';
+  const enabled = localStorage.getItem('sk_notif') !== 'off';
+  const panel   = document.getElementById('notifPanel');
+  const btn     = document.getElementById('notifBtn');
+  const status  = document.getElementById('notifStatus');
+  const count   = document.getElementById('notifCount');
+
+  if (!panel) return;
+
+  // Count upcoming notifications for today
+  const now = new Date();
+  const remaining = NOTIF_SCHEDULE.filter(t => {
+    const fireAt = new Date(); fireAt.setHours(t.h, t.m, 0, 0);
+    return fireAt > now && !doneSet.has(t.id);
+  }).length;
+
+  if (perm === 'unsupported') {
+    status.textContent = 'Not supported on this browser';
+    status.style.color = 'var(--rose)';
+    btn.style.display = 'none';
+  } else if (perm === 'denied') {
+    status.textContent = 'Blocked — go to iOS Settings → Safari → Notifications → Allow';
+    status.style.color = 'var(--rose)';
+    btn.textContent = 'Open Settings';
+    btn.style.display = 'inline-block';
+    btn.onclick = () => showToast('Go to: Settings → Safari → Notifications');
+  } else if (perm === 'granted' && enabled) {
+    status.textContent = `Active — ${remaining} alerts scheduled today`;
+    status.style.color = 'var(--emerald)';
+    btn.textContent = 'Turn off';
+    btn.style.display = 'inline-block';
+    btn.onclick = toggleNotif;
+  } else if (perm === 'granted' && !enabled) {
+    status.textContent = 'Permission granted but notifications are off';
+    status.style.color = 'var(--amber)';
+    btn.textContent = 'Turn on';
+    btn.style.display = 'inline-block';
+    btn.onclick = toggleNotif;
+  } else {
+    // default / prompt state
+    status.textContent = 'Not yet enabled — tap Enable to get 2-min alerts';
+    status.style.color = 'var(--text2)';
+    btn.textContent = 'Enable notifications';
+    btn.style.display = 'inline-block';
+    btn.onclick = requestNotifPermission;
+  }
+
+  if (count) count.textContent = remaining + ' alerts today';
+}
+
+function openNotifPanel() {
+  document.getElementById('notifOverlay').classList.add('open');
+  document.getElementById('notifDrawer').classList.add('open');
+  updateNotifPanel();
+  renderNotifTaskList();
+}
+
+function renderNotifTaskList() {
+  const list = document.getElementById('notifTaskList');
+  if (!list) return;
+  list.innerHTML = '';
+  const now = new Date();
+  const today = now.getDay();
+
+  NOTIF_SCHEDULE.forEach(task => {
+    if (task.tuesdayOnly && today !== 2) return;
+    const fireAt = new Date();
+    fireAt.setHours(task.h, task.m, 0, 0);
+    const isPast = fireAt <= now;
+    const isDone = doneSet.has(task.id);
+
+    const row = document.createElement('div');
+    row.className = 'notif-task-row' + (isDone ? ' done-task' : '');
+    const hh = String(task.h).padStart(2,'0');
+    const mm = String(task.m).padStart(2,'0');
+    row.innerHTML = `
+      <span class="notif-task-name">${isDone?'✓ ':''}${task.label}</span>
+      <span class="notif-task-time" style="color:${isPast?'var(--text3)':'var(--accent3)'}">${hh}:${mm}</span>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function updateBellBadge() {
+  const badge = document.getElementById('bellBadge');
+  if (!badge) return;
+  const enabled = 'Notification' in window && Notification.permission === 'granted' && localStorage.getItem('sk_notif') !== 'off';
+  badge.className = 'bell-badge' + (enabled ? ' show' : '');
+}
+
+function closeNotifPanel() {
+  document.getElementById('notifOverlay').classList.remove('open');
+  document.getElementById('notifDrawer').classList.remove('open');
+}
+
+// ── History drawer ──
+function openHistory(filterKey) {
+  const data = JSON.parse(localStorage.getItem(SK)||'{}');
+  const allKeys = Object.keys(data).filter(k=>k!==getTodayKey()).sort((a,b)=>b.localeCompare(a));
+
+  const overlay = document.getElementById('histOverlay');
+  const drawer  = document.getElementById('histDrawer');
+  const summary = document.getElementById('histSummary');
+  const entries = document.getElementById('histEntries');
+
+  // Summary stats across all logged days
+  if (allKeys.length > 0) {
+    const scores = allKeys.map(k=>data[k].score||0);
+    const avgScore = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+    const bestScore = Math.max(...scores);
+    const streak = calcStreak(data);
+    const totalDays = allKeys.length;
+    summary.innerHTML = `
+      <div class="hist-stat"><div class="hl">Days logged</div><div class="hv" style="color:var(--accent2)">${totalDays}</div></div>
+      <div class="hist-stat"><div class="hl">Avg score</div><div class="hv" style="color:var(--teal)">${avgScore}</div></div>
+      <div class="hist-stat"><div class="hl">Best day</div><div class="hv" style="color:var(--emerald)">${bestScore}</div></div>
+      <div class="hist-stat"><div class="hl">Streak 🔥</div><div class="hv" style="color:var(--amber)">${streak}</div></div>
+    `;
+  } else {
+    summary.innerHTML = '';
+  }
+
+  // Entry list
+  entries.innerHTML = '';
+
+  if (allKeys.length === 0) {
+    entries.innerHTML = '<div class="hist-empty">No previous days logged yet.<br>Complete and submit today\'s tracker — it will appear here tomorrow.</div>';
+  } else {
+    // If filterKey provided (from calendar tap), show only that day at top
+    const keysToShow = filterKey
+      ? [filterKey, ...allKeys.filter(k=>k!==filterKey)]
+      : allKeys;
+
+    keysToShow.forEach(key => {
+      const d = data[key];
+      if (!d) return;
+      const dateObj = new Date(key+'T00:00:00');
+      const dateLabel = dateObj.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+      const score = d.score || 0;
+      const scoreColor = score>=80?'var(--emerald)':score>=60?'var(--teal)':score>=40?'var(--amber)':'var(--rose)';
+
+      const el = document.createElement('div');
+      el.className = 'hist-entry';
+      if (key === filterKey) el.style.borderColor = 'var(--accent2)';
+
+      // Compute bar widths
+      const mP = d.mealPct !== undefined ? d.mealPct : Math.round((d.done||[]).filter(id=>itemTypes[id]==='meal').length/7*100);
+      const sP = d.suppPct !== undefined ? d.suppPct : Math.round((d.done||[]).filter(id=>itemTypes[id]==='supp').length/6*100);
+      const hP = d.habitPct!== undefined ? d.habitPct: Math.round((d.done||[]).filter(id=>itemTypes[id]==='habit').length/7*100);
+      const wP = Math.min(100,Math.round((d.water||0)/12*100));
+
+      const aclDone = (d.done||[]).filter(id=>id.startsWith('acl')).length;
+
+      el.innerHTML = `
+        <div class="hist-entry-top">
+          <div class="hist-entry-date">${dateLabel}</div>
+          <div class="hist-entry-score" style="color:${scoreColor}">${score}<span style="font-size:11px;color:var(--text3)">/100</span></div>
+        </div>
+        <div class="hist-entry-bars">
+          <div class="hbar-row"><div class="hbar-label"><span>Meals</span><span>${mP}%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${mP}%;background:var(--accent2)"></div></div></div>
+          <div class="hbar-row"><div class="hbar-label"><span>Supps</span><span>${sP}%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${sP}%;background:var(--teal)"></div></div></div>
+          <div class="hbar-row"><div class="hbar-label"><span>Habits</span><span>${hP}%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${hP}%;background:var(--violet)"></div></div></div>
+          <div class="hbar-row"><div class="hbar-label"><span>Water</span><span>${wP}%</span></div><div class="hbar-track"><div class="hbar-fill" style="width:${wP}%;background:var(--sky)"></div></div></div>
+        </div>
+        <div class="hist-metrics">
+          ${d.wt   ? `<div class="hmet">Wt <span>${parseFloat(d.wt).toFixed(1)} kg</span></div>` : ''}
+          ${d.slp  ? `<div class="hmet">Sleep <span>${parseFloat(d.slp).toFixed(1)} hrs</span></div>` : ''}
+          ${d.en   ? `<div class="hmet">Energy <span>${d.en}/10</span></div>` : ''}
+          ${d.bf   ? `<div class="hmet">Brain fog <span>${d.bf}/10</span></div>` : ''}
+          ${d.kn!==undefined&&d.kn!==null ? `<div class="hmet">Knee pain <span>${d.kn}/10</span></div>` : ''}
+          ${d.water!==undefined ? `<div class="hmet">Water <span>${(d.water*.25).toFixed(1)}L</span></div>` : ''}
+          ${d.steps ? `<div class="hmet">Steps <span>${parseInt(d.steps).toLocaleString()}</span></div>` : ''}
+          ${aclDone ? `<div class="hmet">ACL <span>${aclDone}/7 ex</span></div>` : ''}
+          ${d.gluten!==undefined ? `<div class="hmet">Gluten-free <span>${d.gluten?'✓':'✗'}</span></div>` : ''}
+        </div>
+      `;
+      entries.appendChild(el);
+    });
+  }
+
+  overlay.classList.add('open');
+  setTimeout(()=>drawer.classList.add('open'), 10);
+}
+
+function closeHistory() {
+  const overlay = document.getElementById('histOverlay');
+  const drawer  = document.getElementById('histDrawer');
+  drawer.classList.remove('open');
+  setTimeout(()=>overlay.classList.remove('open'), 350);
+}
+
+function calcStreak(data) {
+  const today = new Date();
+  let streak = 0;
+  for (let i=1; i<=180; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (data[key] && (data[key].score||0) >= 50) streak++;
+    else break;
+  }
+  return streak;
+}
+
+loadToday();
+renderCal();
+updateStats();
+
+// ── Notification init ──
+setTimeout(() => {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    scheduleNotifications();
+  }
+  updateNotifPanel();
+  updateBellBadge();
+}, 1200);
+</script>
+<!-- ── NOTIFICATION BELL ── -->
+<div class="notif-bell" onclick="openNotifPanel()" title="Notification settings">
+  🔔
+  <div class="bell-badge" id="bellBadge"></div>
+</div>
+
+<!-- ── NOTIFICATION OVERLAY + DRAWER ── -->
+<div class="notif-overlay" id="notifOverlay" onclick="closeNotifPanel()"></div>
+<div class="notif-drawer" id="notifDrawer">
+  <div class="notif-handle"></div>
+  <div class="notif-hdr">
+    <span class="notif-hdr-title">🔔 Notifications</span>
+    <div class="notif-close" onclick="closeNotifPanel()">✕</div>
+  </div>
+  <div class="notif-body">
+
+    <!-- Status + enable/disable -->
+    <div class="notif-status-row">
+      <div class="notif-status-left">
+        <div class="notif-status-lbl">Status</div>
+        <div id="notifStatus">Checking…</div>
+      </div>
+      <button id="notifBtn" style="display:none;" onclick="requestNotifPermission()">Enable</button>
+    </div>
+
+    <!-- iOS install note -->
+    <div class="notif-ios-note">
+      <strong>📲 For background alerts on iPhone:</strong><br>
+      Open in <strong>Safari</strong> → Share ↑ → <strong>Add to Home Screen</strong> → then open from your home screen icon. Notifications only work when installed as a PWA on iOS 16.4+.
+    </div>
+
+    <!-- Task schedule list -->
+    <div style="margin-top:16px;">
+      <div class="notif-section-lbl">Today's alert schedule (2 min early)</div>
+      <div class="notif-task-list" id="notifTaskList"></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
