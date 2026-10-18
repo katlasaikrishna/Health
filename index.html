@@ -629,7 +629,7 @@ body{
   <div class="hdr-eyebrow">Hashimoto's reversal · 6-month protocol</div>
   <h1>Sai Krishna<br><em>Daily Tracker</em></h1>
   <div class="hdr-sub">
-    FNC Plan · Vineesha Reddy · Sep 8, 2026 – Mar 5, 2027<br>
+    FNC Plan · Vineesha Reddy · Oct 19, 2026 – Apr 17, 2027<br>
     Anti-TPO 445 → &lt;200 · TG 248 → &lt;130 · B12 342 → &gt;600
   </div>
   <div class="hdr-badges">
@@ -1154,7 +1154,7 @@ body{
 </div>
 <div class="foot">
   Sai Krishna Katla · 33Y · M · 173 cm · 74 kg · BMI 25<br>
-  FNC Plan · Vineesha Reddy · Sep 8, 2026 – Mar 5, 2027
+  FNC Plan · Vineesha Reddy · Oct 19, 2026 – Apr 17, 2027
 </div>
 
 </div><!-- /wrap -->
@@ -1198,7 +1198,7 @@ const itemTypes = {
 
 const doneSet = new Set();
 let waterCount = 0;
-let calY=2026, calM=8;
+let calY=2026, calM=9;
 const SK='sk_pwa_v1';
 
 const getTodayKey = () => {
@@ -1393,7 +1393,7 @@ function renderCal(){
   const grid=document.getElementById('calGrid'); grid.innerHTML='';
   const data=JSON.parse(localStorage.getItem(SK)||'{}');
   const today=new Date();
-  const s0=new Date(2026,8,8), s1=new Date(2027,2,5);
+  const s0=new Date(2026,9,19), s1=new Date(2027,3,17);
   document.getElementById('calName').textContent=new Date(calY,calM).toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const fd=new Date(calY,calM,1); let dow=fd.getDay(); dow=dow===0?6:dow-1;
   const dim=new Date(calY,calM+1,0).getDate();
@@ -1523,7 +1523,7 @@ const now=new Date();
 const dateStr=now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 document.getElementById('hdrDate').textContent=dateStr;
 document.getElementById('topbarDate').textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-const diff=Math.floor((now-new Date(2026,8,8))/86400000);
+const diff=Math.floor((now-new Date(2026,9,19))/86400000);
 document.getElementById('dayChip').textContent='Day '+(diff>=0?diff+1:'—')+' of 180';
 
 ['slWt','slSlp','slEn','slBf','slMd','slSt','slKn','slKs'].forEach(id=>{
